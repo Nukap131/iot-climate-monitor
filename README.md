@@ -32,3 +32,6 @@ iot-climate-monitor/
 ├── CAD/                # 3D modeller
 ├── platformio.ini
 └── README.md
+
+## Grafana
+Grafana indeholder tre grafer: Temperatur, gasniveau og alarmstatus. Når Temperatur overstiger 25 grader så er alarm slået til, samt når gasniveau når 400. Man kan se i grafer røde streger, det betyder at alarmen går i gang, når man krydser streger.

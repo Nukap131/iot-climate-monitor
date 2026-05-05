@@ -33,6 +33,7 @@ ESP32 → MQTT → Python → SQLite → Streamlit
 ## Mappestruktur
 iot-climate-monitor/
 │
+
 ├── src/                # ESP32 kode
 
 ├── backend/            # Python MQTT → SQLite

@@ -12,7 +12,15 @@ pip install paho-mqtt flask pandas
 ## Start system
 ```bash
 sudo systemctl start mosqtuitto
+source iot-venv/bin/activate
+cd ~/iot-climate-monitor
 python backend/mqtt_to_sqlite.py
+
+//Start Streamlit i anden terminal//
+source iot-venv/bin/activate
+cd ~/iot-climate-monitor
+streamlit run backend/dashboard.py --server.address 0.0.0.0 --server.port 8501
+//Åbn webbrowser: http://192.168.197.229:8501
 ```
 ## ESP32
 ## Upload via PlatformIO:
@@ -20,7 +28,7 @@ python backend/mqtt_to_sqlite.py
 pio run --target upload --upload-port /dev/ttyUSB0
 ```
 ## Systemarkitektur
-ESP32 → MQTT → Python → SQLite → Grafana
+ESP32 → MQTT → Python → SQLite → Streamlit
 
 ## Mappestruktur
 iot-climate-monitor/

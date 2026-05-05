@@ -44,3 +44,8 @@ iot-climate-monitor/
 ## Visualisering af data
 Grafana indeholder tre grafer: Temperatur, gasniveau og alarmstatus. Når Temperatur overstiger 25 grader så er alarm slået til, samt når gasniveau når 400. Man kan se i grafer røde streger, det betyder at alarmen går i gang, når man krydser streger.
 Men efter at have testet Grafanas stabiletet var jeg nødt til at droppet det, da dens nøjagtighed med live var ustabil. Efter temperatur har været over 25 og alarmen har gået i gang, så sidder de fast i over alarm linjen begge alarm og temperatur. Men jeg fandt hurtigt en anden løsning, jeg bruger i stedet Streamlit til visualisering, den fungerer fint, men den skal tilpasses til projektet, så den får bedre udseende og funktioner.
+
+## Process noter
+Designet flere gange boksen, samt propel.
+Skiftede til Streamlit fra Grafana.
+Ventilator larmer meget i starten, så skiftede til 3.3V fra 5V.

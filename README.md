@@ -34,11 +34,17 @@ ESP32 → MQTT → Python → SQLite → Streamlit
 iot-climate-monitor/
 │
 ├── src/                # ESP32 kode
+
 ├── backend/            # Python MQTT → SQLite
+
 ├── database/           # SQLite DB (ikke i git)
+
 ├── docs/               # Rapport / billeder
+
 ├── CAD/                # 3D modeller
+
 ├── platformio.ini
+
 └── README.md
 
 ## Visualisering af data
@@ -47,5 +53,7 @@ Men efter at have testet Grafanas stabiletet var jeg nødt til at droppet det, d
 
 ## Process noter
 Designet flere gange boksen, samt propel.
+
 Skiftede til Streamlit fra Grafana.
-Ventilator larmer meget i starten, så skiftede til 3.3V fra 5V.
+
+Ventilator larmede meget i starten, så skiftede til 3.3V fra 5V.

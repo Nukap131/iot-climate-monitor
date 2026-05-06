@@ -27,7 +27,7 @@ PubSubClient client(espClient);
 
 // ---------- LIMITS ----------
 const float TEMP_LIMIT = 25.0;
-const int GAS_LIMIT = 1800;
+const int GAS_LIMIT = 400;
 
 // ---------- MOTOR ----------
 void motorStart() {

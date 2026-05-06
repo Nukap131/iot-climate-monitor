@@ -1,6 +1,11 @@
 # iot-climate-monitor
 IT-Teknolog 4 semester projekt, udviklet af Nuka Petrussen
 
+## Problemformulering
+Hvordan kan et IoT-baseret overvågningssystem designes og implemeteres for at sikre korrekt indeklima til et lagerfacileter og teknik rum?
+
+Projektet undersøger, hvordan data kan indsamles fra sensorer, lagres i database og visualiseres i et dashboard for at forbedre sikkerhed og arbejdsmiljø.
+
 ## Setup
 
 ## Backend

@@ -63,3 +63,5 @@ Designet flere gange boksen, samt propel.
 Skiftede til Streamlit fra Grafana.
 
 Ventilator larmede meget i starten, så skiftede til 3.3V fra 5V.
+
+Streamlit fungerer godt, man kan tænde og slukke for system med knap også kan man downloade data.

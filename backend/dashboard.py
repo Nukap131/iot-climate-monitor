@@ -10,19 +10,20 @@ from streamlit_autorefresh import st_autorefresh
 # =========================
 # Auto refresh
 # =========================
-st_autorefresh(interval=5000, key="refresh")
+st_autorefresh(interval=3000, key="refresh")
 
 # =========================
 # Database
 # =========================
-DB_FILE = Path("/var/lib/grafana/iot-climate-monitor/sensor_data.db")
+BASE_DIR = Path(__file__).resolve().parent.parent
+DB_FILE = BASE_DIR / "database" / "sensor_data.db"
 
 # =========================
 # Streamlit setup
 # =========================
 st.set_page_config(page_title="IoT Climate Monitor", layout="wide")
 
-st.title("IoT Climate Monitor")
+st.title("Sensorbaseret miljøovervågningsystem")
 
 # =========================
 # MQTT control
@@ -55,11 +56,15 @@ def load_data():
     df["timestamp"] = pd.to_datetime(df["timestamp"])
 
     # sidste 10 min
-    df = df[df["timestamp"] >= pd.Timestamp.now() - pd.Timedelta(minutes=10)]
+    df = df[df["timestamp"] >= pd.Timestamp.now() - pd.Timedelta(hours=2)]
 
     return df
 
 df = load_data()
+
+if df.empty:
+    st.warning("Ingen live data fundet. Tjek at ESP32 og mqtt_to_sqlite.py kører.")
+    st.stop()
 
 latest = df.iloc[-1]
 
@@ -100,6 +105,11 @@ fig_temp = px.line(
     title="Temperatur"
 )
 
+fig_temp.update_xaxes(
+    tickformat="%H:%M",
+    dtick=1800000
+)
+
 fig_temp.add_hline(
     y=25,
     line_dash="dash",
@@ -117,6 +127,11 @@ fig_gas = px.line(
     x="timestamp",
     y="gas",
     title="Gasniveau"
+)
+
+fig_gas.update_xaxes(
+    tickformat="%H:%M",
+    dtick=1800000
 )
 
 fig_gas.add_hline(
@@ -139,24 +154,25 @@ else:
     st.success("✅ System OK")
 
 # =========================
-# Daglig maksimum temperatur og gas
+# Daglig maksimum temperatur og gas - denne måned
 # =========================
-st.subheader("Daglig maksimum temperatur og gas")
+st.subheader("Daglig maksimum temperatur og gas – denne måned")
 
 conn = sqlite3.connect(DB_FILE)
 
-daily_df = pd.read_sql_query("""
+monthly_df = pd.read_sql_query("""
     SELECT timestamp, temperature, gas
     FROM sensor_data
+    WHERE timestamp >= date('now', 'start of month')
     ORDER BY timestamp ASC
 """, conn)
 
 conn.close()
 
-daily_df["timestamp"] = pd.to_datetime(daily_df["timestamp"])
-daily_df["date"] = daily_df["timestamp"].dt.strftime("%d-%m-%Y")
+monthly_df["timestamp"] = pd.to_datetime(monthly_df["timestamp"])
+monthly_df["date"] = monthly_df["timestamp"].dt.strftime("%d-%m-%Y")
 
-daily_summary = daily_df.groupby("date").agg({
+daily_summary = monthly_df.groupby("date").agg({
     "temperature": "max",
     "gas": "max"
 }).reset_index()
@@ -175,22 +191,22 @@ with col_temp:
         daily_summary,
         x="date",
         y="temperature",
-        title="Højeste temperatur pr. dag",
+        title="Højeste temperatur pr. dag denne måned",
         labels={"date": "Dato", "temperature": "Maks temperatur °C"}
     )
     fig_daily_temp.update_xaxes(type="category")
-    st.plotly_chart(fig_daily_temp, use_container_width=True)
+    st.plotly_chart(fig_daily_temp, width="stretch")
 
 with col_gas:
     fig_daily_gas = px.bar(
         daily_summary,
         x="date",
         y="gas",
-        title="Højeste gasniveau pr. dag",
+        title="Højeste gasniveau pr. dag denne måned",
         labels={"date": "Dato", "gas": "Maks gasniveau"}
     )
     fig_daily_gas.update_xaxes(type="category")
-    st.plotly_chart(fig_daily_gas, use_container_width=True)
+    st.plotly_chart(fig_daily_gas, width="stretch")
 
 # =========================
 # Data tabel

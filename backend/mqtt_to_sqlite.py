@@ -42,7 +42,7 @@ def save_data(data):
         (timestamp, temperature, humidity, gas, motor, alarm)
         VALUES (?, ?, ?, ?, ?, ?)
     """, (
-        datetime.now().isoformat(timespec="seconds"),
+        datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         data.get("temperature"),
         data.get("humidity"),
         data.get("gas"),
